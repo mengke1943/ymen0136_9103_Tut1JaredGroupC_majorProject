@@ -4,6 +4,7 @@ let meteors = []; // Used to store meteors
 let scaleFactor = 1; // Scale factor for resizing content
 
 let img; // Declare a variable to store the image
+let meteorBurstTimer = 0; // The timer that controls the meteor burst
 
 function preload() {
   // Preload the image of the hologram circle
@@ -64,11 +65,24 @@ function draw() {
      line(0, y, width / scaleFactor, y);
    }
 
-   // Start creating the meteor section:
-  if (random(1) < 0.1) {
-    // There is a 10% chance to add a new meteor on each frame.
+   meteorBurstTimer++;
+
+   if (meteorBurstTimer % 500 < 100) { 
+    // Every 5 seconds, 100 frames (1 second) are erupted, the frequency of meteor generation increases
+    if (random(1) < 0.8) { // Increase the probability of generation during an outbreak
+      meteors.push(new Meteor());
+    }
+  } else if (random(1) < 0.1) {
+    // The probability of meteor generation under normal conditions
     meteors.push(new Meteor());
   }
+
+  // Draw meteors and clean up meteors that leave the canvas
+  for (let i = meteors.length - 1; i >= 0; i--) {
+    meteors[i].update();
+    meteors[i].display();
+    if (meteors[i].y > height / scaleFactor + 100) meteors.splice(i, 1);
+  } 
   for (let i = 0; i < stars.length; i++) {
     // Draw 500 static stars.
     stars[i].display();
