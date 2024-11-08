@@ -98,7 +98,6 @@ function draw() {
       meteors.splice(i, 1);
   }
 
-
     // Draw a transparent gradient white circle under each dynamic circle ring.
   for (let i = 0; i < cirs.length; i++) {
     let baseX = cirs[i].x;
@@ -125,12 +124,18 @@ function draw() {
   } 
 }
 
-// Function to draw white circular borders around the dynamic circle rings
+// Function to draw white circular borders around the dynamic circle rings with alternating size
 function drawWhiteCircle(circle) {
-  stroke(255, 50); // White in 50% opacity
+  let scaleFactor = 1 + abs(sin(frameCount *1.5)) * 0.2; // Creates a smooth oscillation
+
+  push();
+  translate(circle.x, circle.y);
+  scale(scaleFactor); // Apply scale to make the circular border smoothly grow and shrink
+  stroke(255, 50); // White with 50% opacity
   strokeWeight(10); // Bold border
   noFill();
-  ellipse(circle.x, circle.y, circle.cirSize * 2.05);
+  ellipse(0, 0, circle.cirSize * 2.05); // Draw at (0, 0) after translation
+  pop();
 }
 
 // Function to draw the hologram circle images around the circle rings
