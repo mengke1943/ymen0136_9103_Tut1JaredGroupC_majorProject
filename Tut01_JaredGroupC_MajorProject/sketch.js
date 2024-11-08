@@ -72,7 +72,7 @@ function draw() {
     if (random(1) < 0.8) { // Increase the probability of generation during an outbreak
       meteors.push(new Meteor());
     }
-  } else if (random(1) < 0.1) {
+  } else if (random(1) < 0.01) {
     // The probability of meteor generation under normal conditions
     meteors.push(new Meteor());
   }
