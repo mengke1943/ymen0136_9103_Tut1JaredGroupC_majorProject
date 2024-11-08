@@ -279,17 +279,24 @@ class Circle {
   }
 
   display() {
+    // Implement rotation reversal effect based on frameCount
+    let flip = sin(frameCount * 0.5); // flip between -1 and 1 periodically
+
+    // Calculate dynamic rotation speed based on time
+    let rotationSpeed = map(sin(frameCount * 0.1), -1, 1, 0.5, 2) * this.rotateDir;
     for (let i = 0; i < this.parts.length; i++) {
-      // Draw particles inside the dynamic circle ring
       push();
       translate(this.x, this.y);
+      scale(flip, 1); // Apply flip effect to reverse rotation
+      rotate(this.angle);
       rotate(this.angle);
       this.parts[i].display();
       pop();
     }
-    this.angle += this.rotateDir * 1; // Make the circle ring rotate.
-  
-}}
+    
+    this.angle += rotationSpeed; // Update angle based on dynamic rotation speed
+  }
+}
 
 // Two types of particles
 class Particle1 {
